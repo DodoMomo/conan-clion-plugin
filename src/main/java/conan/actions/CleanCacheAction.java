@@ -1,5 +1,8 @@
 package conan.actions;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
@@ -19,7 +22,10 @@ public class CleanCacheAction extends AnAction implements DumbAware {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
         Project project = getEventProject(anActionEvent);
-        if (project == null || !Utils.isConanInstalled(project) || !Utils.isConanFileExists(project)) {
+        if (project == null) {
+            return;
+        }
+        if (!ActionUtils.validatePrerequisite(project)){
             return;
         }
         boolean result = new ConanConfirmDialog("Removing Conan Cache", WIPE_CACHE_CONFIRM_MESSAGE).showAndGet();

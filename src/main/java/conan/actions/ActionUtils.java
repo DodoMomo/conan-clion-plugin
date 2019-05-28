@@ -1,6 +1,9 @@
 package conan.actions;
 
 import com.google.common.collect.Lists;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
@@ -12,7 +15,6 @@ import conan.ui.ConanToolWindow;
 import conan.ui.profileMatching.ProfileMatcher;
 import conan.utils.Utils;
 import org.apache.commons.lang.StringUtils;
-import conan.utils.Utils;
 
 import java.awt.*;
 import java.util.List;
@@ -83,5 +85,24 @@ class ActionUtils {
             }
         }
         return cmakeProfiles;
+    }
+
+    /**
+     * Check if both conan is installed and conanfile exists and show notifications if not.
+     * @param project intellij project.
+     * @return true if all prerequisites are fulfilled.
+     */
+    public static boolean validatePrerequisite(Project project) {
+        boolean conanInstalled = Utils.isConanInstalled(project);
+        boolean conanfileExist = Utils.isConanFileExists(project);
+        if(!conanInstalled){
+            Notification conanInstalledNotification = new Notification("conan", "Conan error", Utils.CONAN_NOT_FOUND_ERROR_MESSAGE, NotificationType.ERROR);
+            Notifications.Bus.notify(conanInstalledNotification);
+        }
+        if(!conanfileExist){
+            Notification conanfileExistNotification = new Notification("conan", "Conan error", Utils.CONANFILE_NOT_FOUND_ERROR_MESSAGE, NotificationType.ERROR);
+            Notifications.Bus.notify(conanfileExistNotification);
+        }
+        return conanfileExist && conanInstalled;
     }
 }

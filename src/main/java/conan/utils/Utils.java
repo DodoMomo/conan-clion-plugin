@@ -20,6 +20,8 @@ import java.nio.file.Paths;
 public class Utils {
 
     public static final String CONAN_HOME_ENV = "CONAN_USER_HOME";
+    public static final String CONAN_NOT_FOUND_ERROR_MESSAGE = "Could not find Conan client";
+    public static final String CONANFILE_NOT_FOUND_ERROR_MESSAGE = "Could not found conanfile.txt or conanfile.py in project root";
     private static final NotificationGroup EVENT_LOG_NOTIFIER = new NotificationGroup("CONAN_LOG", NotificationDisplayType.NONE, true);
 
     public static boolean validateUrl(String url) {
@@ -70,9 +72,9 @@ public class Utils {
     }
 
     /**
-     * Return true if conan is installed.
+     * Return true if Conan executable exists in the path in the config or in env path.
      * @param project Intellij project.
-     * @return true if conan is installed.
+     * @return true if Conan executable exists in path in the config or in env path.
      */
     public static boolean isConanInstalled(Project project){
         IsInstalledCommand isInstalled = new IsInstalledCommand(project);

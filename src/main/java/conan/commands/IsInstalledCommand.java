@@ -35,13 +35,12 @@ public class IsInstalledCommand extends ConanCommandBase {
             log(logger, "Conan is not installed", "", NotificationType.INFORMATION);
             return;
         }
-
         isInstalled = true;
     }
 
     /**
-     * Return true iff Conan executable exists in env path.
-     * @return true iff Conan executable exists in env path.
+     * Return true if Conan executable exists in the path in the config or in env path.
+     * @return true if Conan executable exists in the path in the config or in env path.
      */
     private boolean isConanInstalled() {
         ProcessHandler processHandler;

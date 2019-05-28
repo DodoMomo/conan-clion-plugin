@@ -20,7 +20,6 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.util.ui.UIUtil;
-import conan.commands.IsInstalledCommand;
 import conan.persistency.settings.ConanProjectSettings;
 import conan.profiles.CMakeProfile;
 import conan.profiles.ConanProfile;
@@ -56,12 +55,12 @@ public class ConanToolWindow implements Disposable {
         conanProfileContexts = Maps.newConcurrentMap();
         contentManager.removeAllContents(true);
         if (!Utils.isConanInstalled(project)) {
-            Content content = createTab(contentFactory, createUnsupportedView("Could not find Conan client in path."), "");
+            Content content = createTab(contentFactory, createUnsupportedView(Utils.CONAN_NOT_FOUND_ERROR_MESSAGE), "");
             contentManager.addContent(content);
             return;
         }
         if (!Utils.isConanFileExists(project)) {
-            Content content = createTab(contentFactory, createUnsupportedView("Could not find conanfile.txt or conanfile.py."), "");
+            Content content = createTab(contentFactory, createUnsupportedView(Utils.CONANFILE_NOT_FOUND_ERROR_MESSAGE), "");
             contentManager.addContent(content);
             return;
         }

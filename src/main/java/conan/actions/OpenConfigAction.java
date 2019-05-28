@@ -17,9 +17,12 @@ public class OpenConfigAction extends AnAction implements DumbAware {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
         Project project = getEventProject(anActionEvent);
-        if (project == null) {
-            return;
-        }
         ShowSettingsUtil.getInstance().showSettingsDialog(project, ConanConfig.CONFIG_NAME);
+    }
+
+    @Override
+    public void update(AnActionEvent anActionEvent) {
+        Project project = anActionEvent.getProject();
+        anActionEvent.getPresentation().setEnabledAndVisible(project != null);
     }
 }

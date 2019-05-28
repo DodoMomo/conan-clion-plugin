@@ -17,9 +17,15 @@ public class InstallAction extends AnAction implements DumbAware {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
         Project project = getEventProject(anActionEvent);
-        if (project == null) {
+        if (!ActionUtils.validatePrerequisite(project)){
             return;
         }
         runInstall(project, anActionEvent.getInputEvent().getComponent(), false);
+    }
+
+    @Override
+    public void update(AnActionEvent anActionEvent) {
+        Project project = anActionEvent.getProject();
+        anActionEvent.getPresentation().setEnabledAndVisible(project != null);
     }
 }

@@ -17,10 +17,13 @@ public class CleanConsole extends AnAction implements DumbAware {
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
         Project project = getEventProject(anActionEvent);
-        if (project == null) {
-            return;
-        }
         ConanToolWindow conanToolWindow = ServiceManager.getService(project, ConanToolWindow.class);
         conanToolWindow.cleanConsole();
+    }
+
+    @Override
+    public void update(AnActionEvent anActionEvent) {
+        Project project = anActionEvent.getProject();
+        anActionEvent.getPresentation().setEnabledAndVisible(project != null);
     }
 }
